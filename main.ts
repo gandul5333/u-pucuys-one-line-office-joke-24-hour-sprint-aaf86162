@@ -33,9 +33,15 @@ if (trimmed.includes("\n") || trimmed.includes("\r")) {
   console.error("error: entry line must be a single line");
   process.exit(1);
 }
-const sentenceEnders = (trimmed.match(/[.!?]/g) ?? []).length;
-if (sentenceEnders !== 1 || !/[.!?]$/.test(trimmed)) {
-  console.error("error: entry line must be a single sentence");
+const periods = (trimmed.match(/\./g) ?? []).length;
+if (periods !== 1 || !trimmed.endsWith(".")) {
+  console.error(
+    "error: entry line must be a single sentence ending with exactly one '.'",
+  );
+  process.exit(1);
+}
+if (/[!?]/.test(trimmed)) {
+  console.error("error: entry line must not contain '!' or '?'");
   process.exit(1);
 }
 if (LINE !== trimmed) {
