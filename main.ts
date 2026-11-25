@@ -38,6 +38,15 @@ if (sentenceEnders !== 1 || !/[.!?]$/.test(trimmed)) {
   console.error("error: entry line must be a single sentence");
   process.exit(1);
 }
+if (LINE !== trimmed) {
+  console.error("error: entry line must not start or end with whitespace");
+  process.exit(1);
+}
+const wordCount = trimmed.split(/\s+/).filter(Boolean).length;
+if (wordCount < 5) {
+  console.error(`error: entry line must have at least 5 words, got ${wordCount}`);
+  process.exit(1);
+}
 
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(outDir, { recursive: true });
